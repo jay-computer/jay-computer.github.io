@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    font-family: 'Press Start 2P', cursive;;
+}
+
+body {
+    display: grid;
+    grid-template: 1fr 6fr / 1fr 5fr;
+    height: 100vh;
+}
+
+header {
+    background-color: pink;
+    grid-column: 2 / 3;
+
+    display: grid;
+    grid-template: 1fr 4fr;
+    padding: 8px;
+    padding-left: 64px;
+}
+
+.search-and-profile {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    
+}
+
+.greeting-redirect-links {
+    display: grid;
+    grid-template-columns: 12fr 1fr 1fr 1fr;
+
+}
+
+
+.greeting-redirect-links > form > input{
+    font-size: 10px;
+    width: 84px;
+}
+
+
+.dashboard-logo {
+    width: 35px;
+}
+
+.sidebar {
+    background-color: blue;
+    grid-row: 1 / 3;
+    padding: 16px;
+
+    display: grid;
+    grid-template-rows: 1fr 9fr;
+}
+
+.dashboard-links {
+    display: grid;
+    grid-template-rows: repeat(10, 1fr);
+    justify-content: start;
+    font-size: 16px;
+    height: 244px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.dashboard {
+    display: flex;
+    
+    align-items: center;
+    gap: 8px;
+    font-size: 24px;
+}
+
+.main-body {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 8px;
+}
+
+.col1, .col2 {
+    display: grid;
+    grid-template-rows: 1fr 4fr 4fr 4fr;
+    gap: 8px;
+}
+
+.col3 {
+    display: grid;
+    grid-template-rows: 1fr 5.5fr 1fr 5.5fr;
+    gap: 8px;
+}
+.col3 > .card {
+    padding: 24px;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 8px;
+}
+
+legend {
+    align-self: end;
+    margin-bottom: 8px;
+}
+
+.card {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 8px;
+}
+
+.card > p {
+    margin-top: 4px;
+    font-size: 10px;
+}
+.card > .sub-card {
+    border-bottom: 1px solid black;
+    
+}
+.sub-card > p {
+    margin-top: 8px;
+    font-size: 8px;
+}
+.trending {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    gap: 16px;
+}
+.trending > .sub-card {
+    border: 2px solid gray;
+    border-radius: 10px;
+    display: grid;
+    align-items: center;
+    padding: 8px;
+}
