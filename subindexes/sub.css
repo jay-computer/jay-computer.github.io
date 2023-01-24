@@ -1,0 +1,29 @@
+* {
+    background-color: #f5cac3;
+    margin: 0;
+    font-family: 'Chivo Mono', monospace;
+    display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+    
+}
+
+h1 {
+    width: 100%;
+    padding-bottom: 24px;
+}
+
+.images {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 85vw;
+    
+    justify-items: center;
+
+}
+
+.demo {
+    width: 25vw; 
+    height: 60vh;
+    object-fit: scale-down;
+}
