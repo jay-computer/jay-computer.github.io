@@ -101,7 +101,7 @@ a {
 
 .col3 {
     display: grid;
-    grid-template-rows: 1fr 5.5fr 1fr 5.5fr;
+    grid-template-rows: 1fr 4fr 0.5fr 7fr;
     gap: 8px;
 }
 .col3 > .card {
@@ -119,33 +119,58 @@ legend {
 .card {
     border: 1px solid black;
     border-radius: 5px;
-    padding: 8px;
+    
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 3fr;
 }
 
 .card > p {
-    margin-top: 4px;
+    
     font-size: 14px;
-    justify-self: end;
+    justify-self: left;
 }
 .card > .sub-card {
     border-bottom: 1px solid black;
     
 }
+
+.card > .last-card {
+    border-bottom: 0px;
+    
+}
+
 .sub-card > p {
-    margin-top: 8px;
-    font-size: 8px;
+    margin-top: 4px;
+    font-size: 12px;
 }
 .trending {
     display: grid;
     grid-template-rows: repeat(4, 1fr);
     gap: 16px;
 }
-.trending > .sub-card {
+.trending.sub-card {
     border: 2px solid gray;
     border-radius: 10px;
     display: grid;
     align-items: center;
     padding: 8px;
+    grid-template-rows: 4fr 1fr 4fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+}
+
+.books {
+    max-height: 15vh;
+    
+    
+}
+
+.card-imgs {
+    width: 7.5vw;
+    
+}
+
+.booktitle {
+    font-size: 10px;
+    font-style: italic;
 }
