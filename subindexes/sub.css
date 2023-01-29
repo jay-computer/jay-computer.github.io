@@ -56,3 +56,7 @@ br {
     margin:1.25em 0;/* FF for instance */
     line-height:2.5em;/* chrome for instance */
   }
+
+.bottom {
+    margin-bottom: 24px;
+}
