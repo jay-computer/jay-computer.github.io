@@ -1,0 +1,60 @@
+* {
+    background-color: #f5cac3;
+    margin: 0;
+    font-family: 'Chivo Mono', monospace;
+    display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+    
+}
+
+h1 {
+    width: 100%;
+    padding-bottom: 24px;
+}
+
+.images {
+    display: grid;
+    grid-template-columns: 1fr;
+    
+    justify-items: center;
+    margin-bottom: 48px;
+}
+
+
+
+.inline {
+    display: inline-block;
+}
+
+.demo {
+    
+    width: 85vw;
+    object-fit: scale-down;
+}
+
+.break {
+    width: 100%;
+}
+
+pre code {
+    background-color: #eee;
+    border: 1px solid #999;
+    display: block;
+    padding: 20px;
+    font-family: Consolas;
+    font-size: 12px;
+    margin-bottom: 96px;
+    
+}
+
+.explain {
+    font-size: 14px;
+    width: 35vw;
+    margin-bottom: 96px;
+}
+
+br {
+    margin:1.25em 0;/* FF for instance */
+    line-height:2.5em;/* chrome for instance */
+  }

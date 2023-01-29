@@ -16,7 +16,7 @@ h1 {
 .images {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    
+    width: 65vw;
     justify-items: center;
     margin-bottom: 96px;
 }

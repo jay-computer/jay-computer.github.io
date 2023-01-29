@@ -2,125 +2,408 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <link href="sub.css" rel="stylesheet">
+        <link href="rock.css" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@300&display=swap" rel="stylesheet">
     </head>
     <body>
-        <h1>Submarine project</h1>
+        <h1>Rocket stand project</h1>
         <h3> (click images to expand)</h3>
         <div class="break"></div>
         <div class = "images">
-            <a href="../images/sub/team.jpg"><img class="demo" src="../images/sub/team.jpg" alt="Image of team"></a>    
-            <a href="../images/sub/sub.jpg"><img class="demo" src="../images/sub/sub.jpg" alt="Image of sub"></a>
-            <a href="../images/sub/exp-sub.png"><img class="demo" src="../images/sub/exp-sub.png" alt="Image of exploded view"></a>
+            <a href="../images/rock/rockexploded.png"><img class="demo" src="../images/rock/rockexploded.png" alt="Image of team"></a>    
+            <a href="../images/rock/between.jpg"><img class="demo" src="../images/rock/between.jpg" alt="Image of sub"></a>
+            <a href="../images/rock/loadcell.png"><img class="demo" src="../images/rock/loadcell.png" alt="Image of exploded view"></a>
             <h3>Figure 1</h3>
             <h3>Figure 2</h3>
             <h3>Figure 3</h3>
         </div>
         <div class="break"></div>
         <div class = "images">
-            <a href="../images/sub/sensor.jpg"><img class="demo" src="../images/sub/sensor.jpg" alt="Image of team"></a>    
-            <a href="../images/sub/pinout.png"><img class="demo" src="../images/sub/pinout.png" alt="Image of sub"></a>
-            <a href="../images/sub/rasp.png"><img class="demo" src="../images/sub/rasp.png" alt="Image of exploded view"></a>
+            <a href="../images/rock/loadcell_breakdown.gif"><img class="demo" src="../images/rock/loadcell_breakdown.gif" alt="Image of team"></a>    
+            <a href="../images/rock/duino.jpg"><img class="demo" src="../images/rock/duino.jpg" alt="Image of sub"></a>
+            <a href=""><img class="demo" src="" alt="Image of actual stand"></a>
             <h3>Figure 4</h3>
             <h3>Figure 5</h3>
             <h3>Figure 6</h3>
         </div>
         <div class="break"></div>
+        <h4>Sources:</h4>
+        <div class="break"></div>
+        <a href="https://projecthub.arduino.cc/nmrsthrust/f8a42f38-bc3d-47ba-9647-ef3bdb902e00">Website mostly referred to.</a>
+        <div class="break"></div>
+        <a href="https://github.com/daniel360kim/motorteststand">GitHub repo for Arduino.</a>
+        <div class="break"></div>
         <p class="explain">
-            The exploded view can be seen in Figure 3. I wrote the code modified from BlueRobotics.com. 
+            The exploded view can be seen in Figure 1. The code was borrowed from this Arduino website. 
             
             
-            Essentially, we got a jar with metal weights, and we manufactured o-rings to create water-tight seal. The cheapest option we found was a borrowed fishing pole attached to the 
-            jar to move the "submarine" up and down.
+            Essentially, we wired a strain gauge bar load cell to an amplifier then wired this amplifier to an Arduino.
 
             <br>
-            My main duty was the electronics of the submarine. Essentially, we need the "smarts" to run a code snippet that runs
-            for ~75 seconds, and it gets constant readings from the Bar02 pressure sensor. The Python code snippet is below.
+            My main duty was the electronics. As seen in Figure 5, the wiring of the load cell to the load cell amplifier is already predetermined in the documentation.
+            The wiring was done to the Arduino, and we had a laptop constantly reading values from the Arduino during trials.
 
             <br>
-            A power bank was utilized to keep a Raspberry Pi 3B+ powered, and the Bar02 sensor was wired to the Raspberry Pi as shown in Figure 6. The pinouts for SDA and SCL are documented on 
-            Raspberry Pi documentation. 
+            As for the rocket stand as a whole, styrofoam walls were used in case the bottle rocket exploded and caused plastic shrapnels, which would be embedded into the styrofoam walls.
+            Another consideration was the plastic Velcro netting on the top of the stand, which would allow for us to observe the bottle rocket and also prevent major shrapnel pieces from flying.
+            The bottle rocket's nozzle burned the plastic netting, which was considered as an engineered failure mode, much like the manufacturing of capacitors with a "+" shape indent on the top so as 
+            to allow for excess gas to leave from the capactior in case of surge of charge.
 
             <br>
-            A challenge is, how do you communicate with the Pi while it is sealed inside the submarine? Since WiFi does not propagate underwater, we modified the code snippet to run automatically
-            for 75 seconds while the submarine is above water. To get the code running, we modified the Raspberry Pi so that it would boot onto the same WiFi connection as my personal laptop,
-            and then I would SSH into the Pi.
+            A main challenge was, how do we ensure this stand will work without testing? We could test it somewhat with dynamic loads by placing weights then removing them,
+            but it was made explicit that we would not be offered any bottle rockets to test with. This meant that we had to replicate the thrust and considerations of a rocket without the rocket.
+            This included dropping and pressing a test weight onto the stand then removing the weight to see the resulting curve.
         </p>
+        <div class="break"></div>
+
+        <div class = "images">
+            <a href="../images/rock/experimentalcurve.png"><img class="demo" src="../images/rock/experimentalcurve.png" alt="Image of team"></a>    
+            <a href="../images/rock/actual.png"><img class="demo" src="../images/rock/actual.png" alt="Image of sub"></a>
+            <a href="../images/rock/plug.png"><img class="demo" src="../images/rock/plug.png" alt="Image of actual stand"></a>
+            <h3>Figure 7</h3>
+            <h3>Figure 8</h3>
+            <h3>Figure 9</h3>
+        </div>
+
+        <div class="break"></div>
+
+        <p class="explain">
+            As observed, the actual curve from our run differs significantly from the one of the Estes documentation. A part of the reason is that
+            our Estes bottle rockets were purposely capped with epoxy to reduce thrust. We believe that this does not necessarily result in a scaling effect of the thrust curve but 
+            and entirely different thrust profile.
+        </p>
+
+        <div class="break"></div>
+
+
+        <h4>The .ino file to calibrate the load cell.</h4>
         <div class="break"></div>
         <pre>
             <code>
-import ms5837
-import time
-import csv
-from datetime import datetime
-
-#set start time
-start_time = time.time()
-
-#open file
-with open("runs/Trial{}.csv".format(datetime.now()), 'w') as csvfile:    #datetime.now()
-    print(datetime.now())
-    fwriter = csv.writer(csvfile, delimiter=',',
-                    quotechar='|', quoting=csv.QUOTE_MINIMAL)
-    
-    fwriter.writerow(['mBar', 'F', 'in' ])
-    sensor = ms5837.MS5837_02BA()
-    #sensor = ms5837.MS5837_02BA(0)
-    #sensor = ms5837.MS5837(model=ms5837.MS5837_MODEL_30BA, bus=0) # Specify model and bus
-
-    # We must initialize the sensor before reading it
-    if not sensor.init():
-            print("Sensor could not be initialized")
-            exit(1)
-            
-    # We have to read values from sensor to update pressure and temperature
-    if not sensor.read():
-        print("Sensor read failed!")
-        exit(1)
-
-    print("Pressure: %.2f atm  %.2f Torr  %.2f psi") % (
-    sensor.pressure(ms5837.UNITS_atm),
-    sensor.pressure(ms5837.UNITS_Torr),
-    sensor.pressure(ms5837.UNITS_psi))
-
-    print("Temperature: %.2f C  %.2f F  %.2f K") % (
-    sensor.temperature(ms5837.UNITS_Centigrade),
-    sensor.temperature(ms5837.UNITS_Farenheit),
-    sensor.temperature(ms5837.UNITS_Kelvin))
-
-    freshwaterDepth = sensor.depth() # default is freshwater
-    zeroedPressure = sensor.pressure() #
-    
-    sensor.setFluidDensity(ms5837.DENSITY_SALTWATER)
-    saltwaterDepth = sensor.depth() # No nead to read() again
-    sensor.setFluidDensity(1000) # kg/m^3
-    print("Depth: %.3f m (freshwater)  %.3f m (saltwater)") % (freshwaterDepth, saltwaterDepth)
-
-    # fluidDensity doesn't matter for altitude() (always MSL air density)
-    print("MSL Relative Altitude: %.2f m") % sensor.altitude() # relative to Mean Sea Level pressure in air
-
-    time.sleep(2)
+// New Mexico Rocketry Reviews: Model Rocket Motor Test Stand Code V.2.4. For reuse, please fill out the contact form at https://sites.google.com/view/rocketryreviews/home
+//Make sure to subscribe to our YouTube channel at:https://www.youtube.com/channel/UC0VazqJrUQiJGd_Tedn47zA?view_as=subscriber
+//If you enjoyed the guide, please consider joining our Patreon membership program at: https://www.patreon.com/rocket_reviews
 
 
-    #while the time elapsed is less than 30
-    while(time.time()-start_time < 75):
-        if sensor.read():
-                print("mBar: %0.1f mbar %0.2f F zeroed distance: %0.2f in") % (
-                sensor.pressure(), # Default is mbar (no arguments)
-                sensor.temperature(ms5837.UNITS_Farenheit),
-                (sensor.pressure())*0.401865)
-                fwriter.writerow([sensor.pressure(), sensor.temperature(ms5837.UNITS_Farenheit), (sensor.pressure() * 0.401865)])
-                time.sleep(0.1)
-        else:
-                print("Sensor read failed!")
-                exit(1)
+
+
+#include &lt;HX711_ADC.h>
+#include &lt;EEPROM.h>
+
+//pins:
+const int HX711_dout = 8; //mcu > HX711 dout pin
+const int HX711_sck = 9; //mcu > HX711 sck pin
+
+//HX711 constructor:
+HX711_ADC LoadCell(HX711_dout, HX711_sck);
+
+const int calVal_eepromAdress = 0;
+long t;
+
+void setup() {
+    Serial.begin(57600); delay(10);
+    Serial.println();
+    Serial.println("Model Rocket Test Stand Rig V.1.4");
+
+    LoadCell.begin();
+    long stabilizingtime = 2000;
+    boolean _tare = false; 
+    LoadCell.start(stabilizingtime, _tare);
+    if (LoadCell.getTareTimeoutFlag() || LoadCell.getSignalTimeoutFlag()) {
+    Serial.println("Timeout, check MCU>HX711 wiring and pin designations");
+    while (1);
+    }
+    else {
+    LoadCell.setCalFactor(1.0); // user set calibration value (float), initial value 1.0 may be used for this sketch
+    Serial.println("Startup is complete");
+    }
+    while (!LoadCell.update());
+    calibrate(); //start calibration procedure
+}
+
+void loop() {
+    static boolean newDataReady = 0;
+    const int serialPrintInterval = 0; //increase value to slow down serial print activity
+
+    if (LoadCell.update()) newDataReady = true;
+
+    // get smoothed value from the dataset:
+    if (newDataReady) {
+    if (millis() > t + serialPrintInterval) {
+        float i = LoadCell.getData();
+        Serial.print("Load_cell output val: ");
+        Serial.println(i);
+        newDataReady = 0;
+        t = millis();
+    }
+    }
+
+    // receive command from serial terminal
+    if (Serial.available() > 0) {
+    float i;
+    char inByte = Serial.read();
+    if (inByte == 't') LoadCell.tareNoDelay(); //tare
+    else if (inByte == 'r') calibrate(); //calibrate
+    else if (inByte == 'c') changeSavedCalFactor(); //edit calibration value manually
+    }
+
+    // check if last tare operation is complete
+    if (LoadCell.getTareStatus() == true) {
+    Serial.println("Tare complete");
+    }
+
+}
+
+void calibrate() {
+    Serial.println("***");
+    Serial.println("Remove any load applied to the load cell.");
+    Serial.println("Send 't' from the serial monitor once tared.");
+
+    boolean _resume = false;
+    while (_resume == false) {
+    LoadCell.update();
+    if (Serial.available() > 0) {
+        if (Serial.available() > 0) {
+        float i;
+        char inByte = Serial.read();
+        if (inByte == 't') LoadCell.tareNoDelay();
+        }
+    }
+    if (LoadCell.getTareStatus() == true) {
+        Serial.println("Tare complete");
+        _resume = true;
+    }
+    }
+
+    Serial.println("Place calibration weight");
+    Serial.println("Send weight in grams into serial monitor");
+
+    float known_mass = 0;
+    _resume = false;
+    while (_resume == false) {
+    LoadCell.update();
+    if (Serial.available() > 0) {
+        known_mass = Serial.parseFloat();
+        if (known_mass != 0) {
+        Serial.print("Known mass is: ");
+        Serial.println(known_mass);
+        _resume = true;
+        }
+    }
+    }
+
+    LoadCell.refreshDataSet(); //refresh the dataset to be sure that the known mass is measured correct
+    float newCalibrationValue = LoadCell.getNewCalibration(known_mass); //get the new calibration value
+
+    Serial.print("New calibration value has been set to: ");
+    Serial.print(newCalibrationValue);
+    Serial.println(", use this as calibration value (calFactor) in your project sketch.");
+    Serial.print("Save this value to EEPROM adress ");
+    Serial.print(calVal_eepromAdress);
+    Serial.println("? y/n");
+
+    _resume = false;
+    while (_resume == false) {
+    if (Serial.available() > 0) {
+        char inByte = Serial.read();
+        if (inByte == 'y') {
+#if defined(ESP8266)|| defined(ESP32)
+        EEPROM.begin(512);
+#endif
+        EEPROM.put(calVal_eepromAdress, newCalibrationValue);
+#if defined(ESP8266)|| defined(ESP32)
+        EEPROM.commit();
+#endif
+        EEPROM.get(calVal_eepromAdress, newCalibrationValue);
+        Serial.print("Value ");
+        Serial.print(newCalibrationValue);
+        Serial.print(" saved to EEPROM address: ");
+        Serial.println(calVal_eepromAdress);
+        _resume = true;
+
+        }
+        else if (inByte == 'n') {
+        Serial.println("Value not saved to EEPROM");
+        _resume = true;
+        }
+    }
+    }
+
+    Serial.println("End calibration");
+    Serial.println("***");
+    Serial.println("To re-calibrate, send 'r' from serial monitor.");
+    Serial.println("For manual edit of the calibration value, send 'c' from serial monitor.");
+    Serial.println("***");
+}
+
+void changeSavedCalFactor() {
+    float oldCalibrationValue = LoadCell.getCalFactor();
+    boolean _resume = false;
+    Serial.println("***");
+    Serial.print("Current value is: ");
+    Serial.println(oldCalibrationValue);
+    Serial.println("Now, send the new value from serial monitor, i.e. 696.0");
+    float newCalibrationValue;
+    while (_resume == false) {
+    if (Serial.available() > 0) {
+        newCalibrationValue = Serial.parseFloat();
+        if (newCalibrationValue != 0) {
+        Serial.print("New calibration value is: ");
+        Serial.println(newCalibrationValue);
+        LoadCell.setCalFactor(newCalibrationValue);
+        _resume = true;
+        }
+    }
+    }
+    _resume = false;
+    Serial.print("Save this value to EEPROM adress ");
+    Serial.print(calVal_eepromAdress);
+    Serial.println("? y/n");
+    while (_resume == false) {
+    if (Serial.available() > 0) {
+        char inByte = Serial.read();
+        if (inByte == 'y') {
+#if defined(ESP8266)|| defined(ESP32)
+        EEPROM.begin(512);
+#endif
+        EEPROM.put(calVal_eepromAdress, newCalibrationValue);
+#if defined(ESP8266)|| defined(ESP32)
+        EEPROM.commit();
+#endif
+        EEPROM.get(calVal_eepromAdress, newCalibrationValue);
+        Serial.print("Value ");
+        Serial.print(newCalibrationValue);
+        Serial.print(" saved to EEPROM address: ");
+        Serial.println(calVal_eepromAdress);
+        _resume = true;
+        }
+        else if (inByte == 'n') {
+        Serial.println("Value not saved to EEPROM");
+        _resume = true;
+        }
+    }
+    }
+    Serial.println("End change calibration value");
+    Serial.println("***");
+}
             </code>
         </pre>
 
-        
+<div class='break'></div>
+<h4>The .ino file used to run actual readings from load cell.</h4>
+<div class='break'></div>
+
+
+        <pre>
+            <code>
+#include "HX711.h"
+#include &lt;LiquidCrystal.h>
+//lcd pins
+const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+// HX711 circuit wiring
+
+const int LOADCELL_DOUT_PIN = 8;
+
+const int LOADCELL_SCK_PIN = 9;
+
+HX711 scale;
+
+double mtime;
+double force;
+double dt;
+double dp;
+double impulse;
+double last;
+double ig;
+
+void setup() {
+
+    Serial.begin(57600);
+    lcd.begin(16,2);
+    lcd.print("Take off Calibration Weight!");
+    
+
+//not my code
+
+int done = 0;  // Declared as a global
+
+
+Serial.println("Take off calibration weight!");
+delay(500);
+Serial.println("First column - time elasped.");
+delay(1000);
+Serial.println("Second column - thrust measured in N");
+delay(1000);
+Serial.println("Third Column - Total Impulse");
+delay(500);
+Serial.println("Press G and Enter to continue");
+    while(done == 0)
+    {
+while (Serial.available() > 0)
+{
+if (Serial.read() == 'G')
+{
+done = 1;
+}
+}
+    }
+// now we clear the serial buffer.
+while(Serial.available() > 0)
+    {
+byte dummyread = Serial.read();
+    }
+
+//back to me
+
+    scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
+
+    double taret = 80;
+    scale.tare(taret);
+    scale.set_scale(413.53); // paste cal val here
+
+    mtime = micros()/1000000.f;
+    force = scale.get_units()*0.009806f;
+    dt = 1/80.f;
+    dp = force*dt;
+    impulse = impulse + dp;
+    last = mtime;
+    ig = mtime + 10.f;
+
+    pinMode(10, OUTPUT);
+    digitalWrite(10, LOW);
+}
+
+void loop() {
+
+    mtime = micros()/1000000.f;
+    force = scale.get_units()*0.009806f;
+    dt = mtime-last;
+    dp = force*dt;
+    impulse = impulse + dp;
+    last = mtime;
+    Serial.print(mtime,10);
+    Serial.print("\t");
+    Serial.print(force,10);
+    Serial.print("\t");
+    Serial.println(impulse,10);
+    
+    if (ig <= mtime && ig + 2 >= mtime){
+    digitalWrite(10, HIGH);
+    }
+    else{
+    digitalWrite(10, LOW);
+    }
+}
+            </code>
+        </pre>
+
+        <div class="break"></div>
+        <p class='explain'>
+            Special thanks to Gabby Morales, Ava Ganeshan, Hyungbin Jun, Daniel Kim, and NM Rocketry.
+        </p>
 
         <div class="break"></div>
 

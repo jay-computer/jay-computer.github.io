@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link href="crack.css" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@300&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <h1>Crack propagation</h1>
+        <div class="break"></div>
+        <div class = "images">
+            <a href="../images/miniamazon/miniamazon.png"><img class="demo" src="../images/miniamazon/miniamazon.png" alt="Image of team"></a>    
+            
+            
+        </div>
+        <div class="break"></div>
+        <h3><a href="https://youtu.be/stfeceOZUkk">Link to partial demo (at a check-point when the website was about 70% completed)</a></h3>
+        <div class="break"></div>
+        <h3>Unfortunately, the website builds upon a database provided</h3>
+
+        <div class="break"></div>
+        <p class="explain">
+            The exploded view can be seen in Figure 3. I wrote the code modified from BlueRobotics.com. 
+            
+            
+            Essentially, we got a jar with metal weights, and we manufactured o-rings to create water-tight seal. The cheapest option we found was a borrowed fishing pole attached to the 
+            jar to move the "submarine" up and down.
+
+            <br>
+            My main duty was the electronics of the submarine. Essentially, we need the "smarts" to run a code snippet that runs
+            for ~75 seconds, and it gets constant readings from the Bar02 pressure sensor. The Python code snippet is below.
+
+            <br>
+            A power bank was utilized to keep a Raspberry Pi 3B+ powered, and the Bar02 sensor was wired to the Raspberry Pi as shown in Figure 6. The pinouts for SDA and SCL are documented on 
+            Raspberry Pi documentation. 
+
+            <br>
+            A challenge is, how do you communicate with the Pi while it is sealed inside the submarine? Since WiFi does not propagate underwater, we modified the code snippet to run automatically
+            for 75 seconds while the submarine is above water. To get the code running, we modified the Raspberry Pi so that it would boot onto the same WiFi connection as my personal laptop,
+            and then I would SSH into the Pi.
+        </p>
+        
+
+        <div class="break"></div>
+
+        <a href="https://jay-computer.github.io/">
+            <button>Go back to homepage.</button>
+         </a>
+         
+    </body>
+</html>

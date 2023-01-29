@@ -2,123 +2,53 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <link href="sub.css" rel="stylesheet">
+        <link href="ant.css" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@300&display=swap" rel="stylesheet">
     </head>
     <body>
-        <h1>Submarine project</h1>
+        <h1>Antweight combat robot</h1>
         <h3> (click images to expand)</h3>
         <div class="break"></div>
         <div class = "images">
-            <a href="../images/sub/team.jpg"><img class="demo" src="../images/sub/team.jpg" alt="Image of team"></a>    
-            <a href="../images/sub/sub.jpg"><img class="demo" src="../images/sub/sub.jpg" alt="Image of sub"></a>
-            <a href="../images/sub/exp-sub.png"><img class="demo" src="../images/sub/exp-sub.png" alt="Image of exploded view"></a>
+            <a href="../images/ant/internal.jpg"><img class="demo" src="../images/ant/internal.jpg" alt="Image of team"></a>    
+            <a href="../images/ant/external.jpg"><img class="demo" src="../images/ant/external.jpg" alt="Image of sub"></a>
+            <a href="../images/ant/chassis.jpg"><img class="demo" src="../images/ant/chassis.jpg" alt="Image of exploded view"></a>
             <h3>Figure 1</h3>
             <h3>Figure 2</h3>
             <h3>Figure 3</h3>
         </div>
         <div class="break"></div>
         <div class = "images">
-            <a href="../images/sub/sensor.jpg"><img class="demo" src="../images/sub/sensor.jpg" alt="Image of team"></a>    
-            <a href="../images/sub/pinout.png"><img class="demo" src="../images/sub/pinout.png" alt="Image of sub"></a>
-            <a href="../images/sub/rasp.png"><img class="demo" src="../images/sub/rasp.png" alt="Image of exploded view"></a>
+            <a href="../images/ant/ramp.jpg"><img class="demo" src="../images/ant/ramp.jpg" alt="Image of team"></a>    
+            <a href="../images/ant/wiring.jpg"><img class="demo" src="../images/ant/wiring.jpg" alt="Image of sub"></a>
+            <a href="../images/ant/lip.png"><img class="demo" src="../images/ant/lip.png" alt="Image of exploded view"></a>
             <h3>Figure 4</h3>
             <h3>Figure 5</h3>
             <h3>Figure 6</h3>
         </div>
         <div class="break"></div>
         <p class="explain">
-            The exploded view can be seen in Figure 3. I wrote the code modified from BlueRobotics.com. 
+            The assembled view is in Figure 2. As can be seen, the main chassis is made of TPS filament, while the roof, ramp, and spinner motor arm is PLA.
+            The entire thing was assembled with tape.
+
+            <br>
+            The wiring is observed in Figure 5. From a switch, 1 male XT30 connector was soldered for the battery; 1 female XT30 connector was soldered for the brushless weapon motor; and 1 female JST connector was soldered for the wheel motors.
+
+            <br>
+            The main chassis, as seen in Figure 3, underwent many iterations to get the 454 gram weight limit. As compared to other bots, ours is somewhat tall. The main principle behind this was that ours would avoid wheel attacks by elevating the chassis higher.
+            Also, our bot-type can be seen as a ramp/vertical-spinner hybrid.
+
+            <br>
+            Figure 6 represents a battery oddity we encountered. We accidentally exploded a Li-Po battery during a build session. While we did solder our wiring harness incorrectly, mutliple continuity tests proved to show no reason for the battery to short-circuit. 
+            We believe that the battery was already old and on the verge of bulging, which resulted in smoke. Figure 6 is not a picture of our battery and is an extreme case of our case; we did not have a jet-stream of fire.
             
-            
-            Essentially, we got a jar with metal weights, and we manufactured o-rings to create water-tight seal. The cheapest option we found was a borrowed fishing pole attached to the 
-            jar to move the "submarine" up and down.
-
             <br>
-            My main duty was the electronics of the submarine. Essentially, we need the "smarts" to run a code snippet that runs
-            for ~75 seconds, and it gets constant readings from the Bar02 pressure sensor. The Python code snippet is below.
-
-            <br>
-            A power bank was utilized to keep a Raspberry Pi 3B+ powered, and the Bar02 sensor was wired to the Raspberry Pi as shown in Figure 6. The pinouts for SDA and SCL are documented on 
-            Raspberry Pi documentation. 
-
-            <br>
-            A challenge is, how do you communicate with the Pi while it is sealed inside the submarine? Since WiFi does not propagate underwater, we modified the code snippet to run automatically
-            for 75 seconds while the submarine is above water. To get the code running, we modified the Raspberry Pi so that it would boot onto the same WiFi connection as my personal laptop,
-            and then I would SSH into the Pi.
+            Overall, our bot went 2-1 in a single elimination tournament. With more time, we could have made better wheel mounts and better medium for a screw to go from the TPS body to the PLA roof of the bot.
         </p>
         <div class="break"></div>
-        <pre>
-            <code>
-import ms5837
-import time
-import csv
-from datetime import datetime
-
-#set start time
-start_time = time.time()
-
-#open file
-with open("runs/Trial{}.csv".format(datetime.now()), 'w') as csvfile:    #datetime.now()
-    print(datetime.now())
-    fwriter = csv.writer(csvfile, delimiter=',',
-                    quotechar='|', quoting=csv.QUOTE_MINIMAL)
-    
-    fwriter.writerow(['mBar', 'F', 'in' ])
-    sensor = ms5837.MS5837_02BA()
-    #sensor = ms5837.MS5837_02BA(0)
-    #sensor = ms5837.MS5837(model=ms5837.MS5837_MODEL_30BA, bus=0) # Specify model and bus
-
-    # We must initialize the sensor before reading it
-    if not sensor.init():
-            print("Sensor could not be initialized")
-            exit(1)
-            
-    # We have to read values from sensor to update pressure and temperature
-    if not sensor.read():
-        print("Sensor read failed!")
-        exit(1)
-
-    print("Pressure: %.2f atm  %.2f Torr  %.2f psi") % (
-    sensor.pressure(ms5837.UNITS_atm),
-    sensor.pressure(ms5837.UNITS_Torr),
-    sensor.pressure(ms5837.UNITS_psi))
-
-    print("Temperature: %.2f C  %.2f F  %.2f K") % (
-    sensor.temperature(ms5837.UNITS_Centigrade),
-    sensor.temperature(ms5837.UNITS_Farenheit),
-    sensor.temperature(ms5837.UNITS_Kelvin))
-
-    freshwaterDepth = sensor.depth() # default is freshwater
-    zeroedPressure = sensor.pressure() #
-    
-    sensor.setFluidDensity(ms5837.DENSITY_SALTWATER)
-    saltwaterDepth = sensor.depth() # No nead to read() again
-    sensor.setFluidDensity(1000) # kg/m^3
-    print("Depth: %.3f m (freshwater)  %.3f m (saltwater)") % (freshwaterDepth, saltwaterDepth)
-
-    # fluidDensity doesn't matter for altitude() (always MSL air density)
-    print("MSL Relative Altitude: %.2f m") % sensor.altitude() # relative to Mean Sea Level pressure in air
-
-    time.sleep(2)
-
-
-    #while the time elapsed is less than 30
-    while(time.time()-start_time < 75):
-        if sensor.read():
-                print("mBar: %0.1f mbar %0.2f F zeroed distance: %0.2f in") % (
-                sensor.pressure(), # Default is mbar (no arguments)
-                sensor.temperature(ms5837.UNITS_Farenheit),
-                (sensor.pressure())*0.401865)
-                fwriter.writerow([sensor.pressure(), sensor.temperature(ms5837.UNITS_Farenheit), (sensor.pressure() * 0.401865)])
-                time.sleep(0.1)
-        else:
-                print("Sensor read failed!")
-                exit(1)
-            </code>
-        </pre>
+        
 
         
 
