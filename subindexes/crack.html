@@ -9,39 +9,121 @@
     </head>
     <body>
         <h1>Crack propagation</h1>
+        <h3> (click images to expand)</h3>
         <div class="break"></div>
         <div class = "images">
-            <a href="../images/miniamazon/miniamazon.png"><img class="demo" src="../images/miniamazon/miniamazon.png" alt="Image of team"></a>    
-            
+            <div></div>
+            <a href="../images/crack/crack.png"><img class="demo" src="../images/crack/crack.png" alt="Image of team"></a>
+            <div></div>
+            <div></div>
+            <h4>Figure 1: Fracture patterns from injection of a fluid in a Hele-Shaw cell packed with glass beads under confining stress, and saturated with a viscous defending liquid, for different wettability characteristics, from drainage to strong imbibition. All three experiments were conducted for the same capillary number (Ca = 500), representing the ratio of viscous to capillary forces.</h4>
+            <div></div>
             
         </div>
         <div class="break"></div>
-        <h3><a href="https://youtu.be/stfeceOZUkk">Link to partial demo (at a check-point when the website was about 70% completed)</a></h3>
-        <div class="break"></div>
-        <h3>Unfortunately, the website builds upon a database provided</h3>
+        <h3><a href="https://dolbow.pratt.duke.edu/research/wettability-and-fracture-granular-media">Wettability and Fracture in Granular Media (the study I'm contributing to)</a></h3>
+        
+        
 
         <div class="break"></div>
         <p class="explain">
-            The exploded view can be seen in Figure 3. I wrote the code modified from BlueRobotics.com. 
-            
-            
-            Essentially, we got a jar with metal weights, and we manufactured o-rings to create water-tight seal. The cheapest option we found was a borrowed fishing pole attached to the 
-            jar to move the "submarine" up and down.
-
-            <br>
-            My main duty was the electronics of the submarine. Essentially, we need the "smarts" to run a code snippet that runs
-            for ~75 seconds, and it gets constant readings from the Bar02 pressure sensor. The Python code snippet is below.
-
-            <br>
-            A power bank was utilized to keep a Raspberry Pi 3B+ powered, and the Bar02 sensor was wired to the Raspberry Pi as shown in Figure 6. The pinouts for SDA and SCL are documented on 
-            Raspberry Pi documentation. 
-
-            <br>
-            A challenge is, how do you communicate with the Pi while it is sealed inside the submarine? Since WiFi does not propagate underwater, we modified the code snippet to run automatically
-            for 75 seconds while the submarine is above water. To get the code running, we modified the Raspberry Pi so that it would boot onto the same WiFi connection as my personal laptop,
-            and then I would SSH into the Pi.
+            This is a study I am contributing to from a computational aspect. Essentially, this study observes multiphase flow through granular and porous materials. This will eventually lead some insight
+            into the "mode of gas invasion in sediments at the pore level governing whether methane hydrate forms as concentrated veins that are useful for energy production, or instead in a much more disperse manner" (from the study linked above).
         </p>
+        <div class="break"></div>
+        <div class = "images">
+            <a href="../images/crack/plot1.png"><img class="demo" src="../images/crack/plot1.png" alt="Image of team"></a>
+            <a href="../images/crack/plot2.png"><img class="demo" src="../images/crack/plot2.png" alt="Image of team"></a>    
+            <a href="../images/crack/emulation.png"><img class="demo" src="../images/crack/emulation.png" alt="Image of team"></a>
+            <h4>Figure 2: LS-algorithm for 2D packing with 558 spheres. (Red circle indicates border of disk packing)</h4>
+            <h4>Figure 3: LS-algorithm for 2D packing with 2000 spheres. (Red circle indicates border of disk packing)</h4>
+            <h4>Figure 4: The real-life manifestation of fluid injected into center of soda lime glass beads.</h4>
+            
+        </div>
+        <div class="break"></div>
         
+        <h3 style="margin: 12px;"><a href="https://cims.nyu.edu/~donev/Packing/C++/">Lubachevsky-Stillinger algorithm in C++, derived from an NYU study</a></h3>
+        <div class="break"></div>
+        <p class="explain">
+            By utilizing the NYU study and code above, I have generated "soft-wall" 2D sphere packing in a square domain. The red circles indicate the boundary layer applied after-the-fact. 
+            The output of the NYU C++ script is a dat file which is a list of all coordinates and radii of the entitites generated. 
+
+            <br>
+            Certain notable features observed, particularly in Figure 3, are domains of the generated spheres and their boundaries. There are also displacements, whose movements would be impeded as 
+            macroscopic deformations are applied (such as pure tension of a steel specimen, which requires displacements from the center to move towards the outside of the specimen).
+
+            <br>
+            This is an on-going study! Please ask me any updates since. The current code I am using is purely 2D sphere packing. Next steps are to generate a cylindrical packing of monodisperse spheres with "hard-wall" boundaries, and to possibly modify the script so as to
+            add calculations of moments into the Lubachevsky-Stillinger algorithm.
+        </p>
+
+
+        <div class="break"></div>
+        <h4>Python script to observe the generated entitites and to draw the macro-disk boundary.</h4>
+        <div class="break"></div>
+
+        <pre>
+            <code>
+import random
+import math
+from matplotlib import pyplot as plt
+import numpy as np
+import csv
+from matplotlib.patches import Circle
+
+RJ_input = np.empty(1)
+
+with open('write.dat') as f:
+    reader = csv.reader(f, delimiter="\n")
+    
+    for line in reader:
+        RJ_input = np.append(RJ_input, line)
+        
+circ_radii = float(RJ_input[4]) / 2
+print("Diamter: {}".format(circ_radii*2))
+print(RJ_input[7])
+RJ_input = RJ_input[7:]        
+#print(RJ_input)
+#print(np.char.split(RJ_input))
+
+
+
+RJ_input = np.char.split(RJ_input)
+
+#print([float(row[0]) for row in RJ_input])
+RJ_x = [float(row[0]) for row in RJ_input]
+
+#print([float(row[1]) for row in RJ_input])
+RJ_y = [float(row[1]) for row in RJ_input]
+
+
+
+#for i in range(0, len(RJ_input)):
+#plt.plot(RJ_x, RJ_y, marker = 'o', markersize = circ_radii)    
+
+fig,ax = plt.subplots(1)
+ax.set_aspect('equal')
+
+lowerbound = -0.1
+upperbound = 1.1
+
+scale = False
+if scale == True:
+    circ_radii = circ_radii * 10
+    lowerbound = lowerbound * np.sqrt(10)
+    upperbound = upperbound * np.sqrt(10)
+    
+
+ax.set(xlim=(lowerbound, upperbound), ylim=(lowerbound, upperbound))
+for i in range(0, len(RJ_input)):
+    circ = Circle((RJ_x[i], RJ_y[i]), circ_radii, fill=False)
+    ax.add_patch(circ)
+    
+
+big_circ = Circle((0.5, 0.5), 0.5, fill=False, color='r')
+ax.add_patch(big_circ)
+            </code>
+        </pre>
 
         <div class="break"></div>
 

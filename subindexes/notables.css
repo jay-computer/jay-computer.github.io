@@ -23,8 +23,10 @@ h1 {
 
 .lister {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(7, 1fr);
+    width: 50vw;
+    
 }
 
 .inline {
